@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { FiArrowRight, FiHeart, FiMail, FiChevronRight } from 'react-icons/fi'
+import { FiArrowRight, FiHeart } from 'react-icons/fi'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './App.css'
@@ -493,24 +493,6 @@ function App() {
     [timeLeft],
   )
 
-  const transitionTimeoutRef = useRef(null)
-  const safetyTimeoutRef = useRef(null)
-
-  const transitionToExperience = () => {
-    if (videoCompleted) return
-    if (safetyTimeoutRef.current) clearTimeout(safetyTimeoutRef.current)
-    if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current)
-
-    setVideoCompleted(true)
-    setExperienceStarted(true)
-    setIsTransitioning(true)
-
-    transitionTimeoutRef.current = window.setTimeout(() => {
-      setShowIntro(false)
-      setIsTransitioning(false)
-    }, 1200)
-  }
-
   const handleEnterExperience = async () => {
     if (isTransitioning || introPlaybackStarted) return
 
@@ -519,41 +501,23 @@ function App() {
     if (videoRef.current) {
       try {
         videoRef.current.currentTime = 0
-        const playPromise = videoRef.current.play()
-        if (playPromise !== undefined) {
-          await playPromise
-        }
-        safetyTimeoutRef.current = window.setTimeout(() => {
-          transitionToExperience()
-        }, 3500)
+        await videoRef.current.play()
       } catch (error) {
-        console.warn('El navegador no pudo reproducir el vídeo automáticamente:', error)
-        transitionToExperience()
-      }
-    } else {
-      transitionToExperience()
-    }
-  }
-
-  const handleSkipIntro = (event) => {
-    event.stopPropagation()
-    if (videoRef.current) {
-      try {
-        videoRef.current.pause()
-      } catch {
-        // ignore
+        setIntroPlaybackStarted(false)
+        console.warn('No se pudo iniciar el vídeo automáticamente.', error)
       }
     }
-    transitionToExperience()
-  }
-
-  const handleVideoError = (event) => {
-    console.warn('No se pudo cargar el vídeo de introducción:', event)
-    transitionToExperience()
   }
 
   const handleIntroVideoEnded = () => {
-    transitionToExperience()
+    setVideoCompleted(true)
+    setExperienceStarted(true)
+    setIsTransitioning(true)
+
+    window.setTimeout(() => {
+      setShowIntro(false)
+      setIsTransitioning(false)
+    }, 1320)
   }
 
   const handleScrollToCountdown = (event) => {
@@ -584,39 +548,15 @@ function App() {
           >
             <video
               ref={videoRef}
-              src={introVideoUrl}
               muted
               preload="auto"
               playsInline
-              webkit-playsinline="true"
               onEnded={handleIntroVideoEnded}
-              onError={handleVideoError}
             >
               <source src={introVideoUrl} type="video/mp4" />
             </video>
             <div className="intro-overlay" />
-            {!introPlaybackStarted && (
-              <div className="intro-action-container">
-                <button
-                  type="button"
-                  className="intro-open-btn"
-                  onClick={handleEnterExperience}
-                  aria-label="Abrir invitación"
-                >
-                  <span className="intro-open-icon">
-                    <FiMail />
-                  </span>
-                  <span className="intro-open-text">Abrir invitación</span>
-                </button>
-                <button
-                  type="button"
-                  className="intro-skip-link"
-                  onClick={handleSkipIntro}
-                >
-                  Saltar intro <FiChevronRight />
-                </button>
-              </div>
-            )}
+            {!introPlaybackStarted && <span className="intro-action">Toca para entrar</span>}
           </div>
         </section>
       )}
