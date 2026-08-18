@@ -1,4 +1,6 @@
 .experience {
+  --fondo-image: none;
+  --flower-image: none;
   --bg-overlay-opacity: 0.66;
   --section-spacing: clamp(1rem, 2.8vw, 1.85rem);
   position: relative;
@@ -8,7 +10,7 @@
   background-image:
     linear-gradient(rgb(252 250 249 / var(--bg-overlay-opacity)),
       rgb(252 250 249 / var(--bg-overlay-opacity))),
-    url('/media/images/fondo.png');
+    var(--fondo-image);
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
@@ -301,14 +303,14 @@
   top: 6%;
   left: 5%;
   transform: rotate(-5deg);
-  background-image: url('/media/images/flower.png');
+  background-image: var(--flower-image);
 }
 
 .cover-hero::after {
   right: 4%;
   bottom: 8%;
   transform: rotate(7deg) scaleX(-1);
-  background-image: url('/media/images/flower.png');
+  background-image: var(--flower-image);
 }
 
 .cover-date {
@@ -629,14 +631,14 @@
   top: 14px;
   left: 14px;
   transform: rotate(-7deg);
-  background-image: url('/media/images/flower.png');
+  background-image: var(--flower-image);
 }
 
 .schedule-shell::after {
   right: 12px;
   bottom: 12px;
   transform: rotate(8deg) scaleX(-1);
-  background-image: url('/media/images/flower.png');
+  background-image: var(--flower-image);
 }
 
 .schedule-shell--revealed::before,

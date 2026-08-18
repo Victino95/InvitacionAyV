@@ -6,6 +6,11 @@ import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const mediaBaseUrl = `${import.meta.env.BASE_URL}media/`
+const flowerImageUrl = `${mediaBaseUrl}images/flower.png`
+const siteBackgroundUrl = `${mediaBaseUrl}images/fondo.png`
+const introVideoUrl = `${mediaBaseUrl}videos/sobre.mp4`
+
 const targetDate = new Date('2027-08-14T19:30:00')
 
 const invitationCover = {
@@ -18,11 +23,11 @@ const invitationCover = {
 }
 
 const agendaIcons = {
-  ceremony: <img src="/media/images/ceremony.svg" alt="" loading="lazy" decoding="async" />,
-  cocktail: <img src="/media/images/cocktail.svg" alt="" loading="lazy" decoding="async" />,
-  dinner: <img src="/media/images/dinner.svg" alt="" loading="lazy" decoding="async" />,
-  dance: <img src="/media/images/party.svg" alt="" loading="lazy" decoding="async" />,
-  hotel: <img src="/media/images/sleep.svg" alt="" loading="lazy" decoding="async" />,
+  ceremony: <img src={`${mediaBaseUrl}images/ceremony.svg`} alt="" loading="lazy" decoding="async" />,
+  cocktail: <img src={`${mediaBaseUrl}images/cocktail.svg`} alt="" loading="lazy" decoding="async" />,
+  dinner: <img src={`${mediaBaseUrl}images/dinner.svg`} alt="" loading="lazy" decoding="async" />,
+  dance: <img src={`${mediaBaseUrl}images/party.svg`} alt="" loading="lazy" decoding="async" />,
+  hotel: <img src={`${mediaBaseUrl}images/sleep.svg`} alt="" loading="lazy" decoding="async" />,
 }
 
 const weddingAgenda = [
@@ -520,8 +525,13 @@ function App() {
     countdownSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
+  const experienceMediaStyles = {
+    '--fondo-image': `url("${siteBackgroundUrl}")`,
+    '--flower-image': `url("${flowerImageUrl}")`,
+  }
+
   return (
-    <main className={`experience ${isTransitioning ? 'experience--transitioning' : ''}`}>
+    <main className={`experience ${isTransitioning ? 'experience--transitioning' : ''}`} style={experienceMediaStyles}>
       {showIntro && (
         <section className="chapter chapter--intro">
           <div
@@ -543,7 +553,7 @@ function App() {
               playsInline
               onEnded={handleIntroVideoEnded}
             >
-              <source src="/media/videos/sobre.mp4" type="video/mp4" />
+              <source src={introVideoUrl} type="video/mp4" />
             </video>
             <div className="intro-overlay" />
             {!introPlaybackStarted && <span className="intro-action">Toca para entrar</span>}
