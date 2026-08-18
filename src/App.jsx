@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { FiArrowRight, FiHeart } from 'react-icons/fi'
+import { FiArrowRight, FiHeart, FiMail, FiChevronRight } from 'react-icons/fi'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './App.css'
@@ -493,6 +493,24 @@ function App() {
     [timeLeft],
   )
 
+  const transitionTimeoutRef = useRef(null)
+  const safetyTimeoutRef = useRef(null)
+
+  const transitionToExperience = () => {
+    if (videoCompleted) return
+    if (safetyTimeoutRef.current) clearTimeout(safetyTimeoutRef.current)
+    if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current)
+
+    setVideoCompleted(true)
+    setExperienceStarted(true)
+    setIsTransitioning(true)
+
+    transitionTimeoutRef.current = window.setTimeout(() => {
+      setShowIntro(false)
+      setIsTransitioning(false)
+    }, 1200)
+  }
+
   const handleEnterExperience = async () => {
     if (isTransitioning || introPlaybackStarted) return
 
@@ -501,23 +519,41 @@ function App() {
     if (videoRef.current) {
       try {
         videoRef.current.currentTime = 0
-        await videoRef.current.play()
+        const playPromise = videoRef.current.play()
+        if (playPromise !== undefined) {
+          await playPromise
+        }
+        safetyTimeoutRef.current = window.setTimeout(() => {
+          transitionToExperience()
+        }, 3500)
       } catch (error) {
-        setIntroPlaybackStarted(false)
-        console.warn('No se pudo iniciar el vídeo automáticamente.', error)
+        console.warn('El navegador no pudo reproducir el vídeo automáticamente:', error)
+        transitionToExperience()
       }
+    } else {
+      transitionToExperience()
     }
   }
 
-  const handleIntroVideoEnded = () => {
-    setVideoCompleted(true)
-    setExperienceStarted(true)
-    setIsTransitioning(true)
+  const handleSkipIntro = (event) => {
+    event.stopPropagation()
+    if (videoRef.current) {
+      try {
+        videoRef.current.pause()
+      } catch {
+        // ignore
+      }
+    }
+    transitionToExperience()
+  }
 
-    window.setTimeout(() => {
-      setShowIntro(false)
-      setIsTransitioning(false)
-    }, 1320)
+  const handleVideoError = (event) => {
+    console.warn('No se pudo cargar el vídeo de introducción:', event)
+    transitionToExperience()
+  }
+
+  const handleIntroVideoEnded = () => {
+    transitionToExperience()
   }
 
   const handleScrollToCountdown = (event) => {
@@ -548,15 +584,39 @@ function App() {
           >
             <video
               ref={videoRef}
+              src={introVideoUrl}
               muted
               preload="auto"
               playsInline
+              webkit-playsinline="true"
               onEnded={handleIntroVideoEnded}
+              onError={handleVideoError}
             >
               <source src={introVideoUrl} type="video/mp4" />
             </video>
             <div className="intro-overlay" />
-            {!introPlaybackStarted && <span className="intro-action">Toca para entrar</span>}
+            {!introPlaybackStarted && (
+              <div className="intro-action-container">
+                <button
+                  type="button"
+                  className="intro-open-btn"
+                  onClick={handleEnterExperience}
+                  aria-label="Abrir invitación"
+                >
+                  <span className="intro-open-icon">
+                    <FiMail />
+                  </span>
+                  <span className="intro-open-text">Abrir invitación</span>
+                </button>
+                <button
+                  type="button"
+                  className="intro-skip-link"
+                  onClick={handleSkipIntro}
+                >
+                  Saltar intro <FiChevronRight />
+                </button>
+              </div>
+            )}
           </div>
         </section>
       )}
@@ -597,7 +657,7 @@ function App() {
             <div className="chapter__inner detail-shell chapter-frame frame-cyan section-bg-date">
               <p className="eyebrow">14 Agosto 2027</p>
               <h3>Nos reuniremos al caer la tarde, con el aire suave de la vera y la emoción de quien espera algo bonito.</h3>
-              <a className="button button--primary" href="/" onClick={handleScrollToCountdown}>
+              <a className="button button--primary" href="#countdown" onClick={handleScrollToCountdown}>
                 Continuar <FiArrowRight />
               </a>
             </div>
