@@ -8,13 +8,12 @@ gsap.registerPlugin(ScrollTrigger)
 
 const mediaBaseUrl = `${import.meta.env.BASE_URL}media/`
 const flowerImageUrl = `${mediaBaseUrl}images/flower.png`
-const siteBackgroundUrl = `${mediaBaseUrl}images/fondo.png`
 const introVideoUrl = `${mediaBaseUrl}videos/sobre.mp4`
 
 const targetDate = new Date('2027-08-14T19:30:00')
 
 const invitationCover = {
-  dateLabel: '20 · JUNIO · 2027',
+  dateLabel: '14 · AGOSTO · 2027',
   names: ['ALMUDENA', 'VÍCTOR'],
   quote: [
     'Hay historias que comienzan con una mirada.',
@@ -129,6 +128,12 @@ function App() {
     updateCountdown()
     const timer = window.setInterval(updateCountdown, 1000)
     return () => window.clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load()
+    }
   }, [])
 
   useEffect(() => {
@@ -501,11 +506,16 @@ function App() {
     if (videoRef.current) {
       try {
         videoRef.current.currentTime = 0
-        await videoRef.current.play()
+        const playPromise = videoRef.current.play()
+        if (playPromise !== undefined) {
+          await playPromise
+        }
       } catch (error) {
-        setIntroPlaybackStarted(false)
-        console.warn('No se pudo iniciar el vídeo automáticamente.', error)
+        console.warn('No se pudo iniciar el vídeo al hacer clic.', error)
+        handleIntroVideoEnded()
       }
+    } else {
+      handleIntroVideoEnded()
     }
   }
 
@@ -526,7 +536,6 @@ function App() {
   }
 
   const experienceMediaStyles = {
-    '--fondo-image': `url("${siteBackgroundUrl}")`,
     '--flower-image': `url("${flowerImageUrl}")`,
   }
 
@@ -548,10 +557,13 @@ function App() {
           >
             <video
               ref={videoRef}
+              src={introVideoUrl}
               muted
               preload="auto"
               playsInline
+              webkit-playsinline="true"
               onEnded={handleIntroVideoEnded}
+              onError={handleIntroVideoEnded}
             >
               <source src={introVideoUrl} type="video/mp4" />
             </video>
@@ -571,7 +583,6 @@ function App() {
                 <h1 className="cover-name">{invitationCover.names[0]}</h1>
                 <div className="cover-ampersand">&</div>
                 <h1 className="cover-name">{invitationCover.names[1]}</h1>
-                <span className="cover-glow" aria-hidden="true" />
               </div>
 
               <p className="cover-quote">

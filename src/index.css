@@ -1,23 +1,88 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ============================================================
+   SISTEMA DE DISEÑO — BODA ALMUVIC
+   Paleta oficial: #A81D4D · #EE5F9B · #F18DB5 · #94DEE2 · #449293
+   ============================================================ */
 
 :root {
-  --accent-rose: #a81d4d;
-  --accent-pink: #ee5f9b;
-  --accent-soft: #f18db5;
-  --accent-cyan: #94dee2;
-  --accent-teal: #449293;
-  --bg-soft: #fcfaf9;
-  --bg-card: #ffffff;
-  --text-strong: #222222;
-  --text-muted: #555555;
-  --border-soft: #e8e4e1;
-  --heading-font: 'Cormorant Garamond', serif;
-  --body-font: 'Inter', sans-serif;
+  /* --- PALETA OFICIAL (cinco colores) --- */
+
+  /* Burdeos / Frambuesa — protagonismo, botones principales, detalles importantes */
+  --color-burgundy:       #A81D4D;
+  --color-burgundy-hover: #8E1640;
+  --color-burgundy-10:    rgba(168, 29, 77, 0.10);
+  --color-burgundy-15:    rgba(168, 29, 77, 0.15);
+  --color-burgundy-20:    rgba(168, 29, 77, 0.20);
+
+  /* Rosa intenso — hover, detalles decorativos, líneas secundarias */
+  --color-rose:           #EE5F9B;
+  --color-rose-10:        rgba(238, 95, 155, 0.10);
+  --color-rose-20:        rgba(238, 95, 155, 0.20);
+
+  /* Rosa pastel — atmósferas, fondos suaves, secciones románticas */
+  --color-blush:          #F18DB5;
+  --color-blush-bg:       #FEF4F8;   /* muy aclarado para fondos elegantes */
+  --color-blush-bg-soft:  #FEF9FB;   /* fondos casi blancos */
+  --color-blush-10:       rgba(241, 141, 181, 0.10);
+  --color-blush-15:       rgba(241, 141, 181, 0.15);
+  --color-blush-25:       rgba(241, 141, 181, 0.25);
+
+  /* Aguamarina pastel — frescura, información, equilibrio visual */
+  --color-aqua:           #94DEE2;
+  --color-aqua-bg:        #F1FBFC;   /* muy aclarado para fondos elegantes */
+  --color-aqua-bg-soft:   #F7FDFD;   /* fondos casi blancos */
+  --color-aqua-10:        rgba(148, 222, 226, 0.10);
+  --color-aqua-15:        rgba(148, 222, 226, 0.15);
+  --color-aqua-25:        rgba(148, 222, 226, 0.25);
+
+  /* Verde azulado — contraste profundo, botones secundarios, iconos, detalles */
+  --color-teal:           #449293;
+  --color-teal-hover:     #357476;
+  --color-teal-10:        rgba(68, 146, 147, 0.10);
+  --color-teal-15:        rgba(68, 146, 147, 0.15);
+  --color-teal-20:        rgba(68, 146, 147, 0.20);
+
+  /* --- FONDOS (domina el 80-90% de la interfaz) --- */
+  --bg-primary:   #FDFBF9;   /* marfil muy cálido, casi blanco */
+  --bg-soft:      #FDFBF9;
+  --bg-card:      #FFFFFF;
+  --bg-card-warm: #FAF8F5;   /* crema suave */
+
+  /* --- TIPOGRAFÍA --- */
+  --text-strong: #1E1A18;   /* carbón profundo */
+  --text-muted:  #574F4A;   /* gris cálido legible */
+  --text-subtle: #8A817C;   /* indicadores, placeholders */
+  --border-soft: #EBE5E0;   /* separadores suaves */
+
+  /* --- ALIASES DE COMPATIBILIDAD (para no romper código existente) --- */
+  --accent-rose:                 var(--color-burgundy);
+  --accent-pink:                 var(--color-rose);
+  --accent-soft:                 var(--color-blush-bg);
+  --accent-cyan:                 var(--color-aqua);
+  --accent-teal:                 var(--color-teal);
+  --accent:                      var(--color-burgundy);
+  --accent-bougainvillea:        var(--color-burgundy);
+  --accent-bougainvillea-dark:   var(--color-burgundy-hover);
+  --accent-bougainvillea-soft:   var(--color-rose);
+  --accent-bougainvillea-bg:     var(--color-blush-bg);
+  --accent-bougainvillea-border: var(--color-burgundy-15);
+  --accent-eucalyptus:           var(--color-teal);
+  --accent-eucalyptus-dark:      var(--color-teal-hover);
+  --accent-eucalyptus-soft:      var(--color-aqua);
+  --accent-eucalyptus-bg:        var(--color-aqua-bg);
+  --accent-eucalyptus-border:    var(--color-teal-15);
+  --accent-aquamarine-pale:      var(--color-aqua);
+
+  /* --- TIPOGRAFÍAS --- */
+  --heading-font: 'Cormorant Garamond', Georgia, serif;
+  --body-font:    'Inter', system-ui, sans-serif;
+
   font-family: var(--body-font);
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight: 400;
   color: var(--text-strong);
-  background-color: var(--bg-soft);
+  background-color: var(--bg-primary);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -31,11 +96,13 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: #fcfaf9;
+  background: var(--bg-primary);
+  color: var(--text-strong);
 }
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 img {
