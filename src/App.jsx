@@ -8,13 +8,14 @@ gsap.registerPlugin(ScrollTrigger)
 
 const mediaBaseUrl = `${import.meta.env.BASE_URL}media/`
 const flowerImageUrl = `${mediaBaseUrl}images/flower.png`
+const fondoImageUrl = `${mediaBaseUrl}images/fondo.jpg`
 const introVideoUrl = `${mediaBaseUrl}videos/sobre.mp4`
 
 const targetDate = new Date('2027-08-14T19:30:00')
 
 const invitationCover = {
   dateLabel: '14 · AGOSTO · 2027',
-  names: ['ALMUDENA', 'VÍCTOR'],
+  names: ['Almudena', 'Víctor'],
   quote: [
     'Hay historias que comienzan con una mirada.',
     "La nuestra continúa con un 'sí, quiero'.",
@@ -536,7 +537,7 @@ function App() {
   }
 
   const experienceMediaStyles = {
-    '--flower-image': `url("${flowerImageUrl}")`,
+    '--fondo-image': `url("${fondoImageUrl}")`,
   }
 
   return (

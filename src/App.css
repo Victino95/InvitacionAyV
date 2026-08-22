@@ -1,19 +1,11 @@
 .experience {
-  --fondo-image: none;
-  --flower-image: none;
+  --flower-image: var(--flower-image);
   --bg-overlay-opacity: 0.82;
   --section-spacing: clamp(1rem, 2.8vw, 1.85rem);
   position: relative;
   isolation: isolate;
   width: 100%;
   background-color: var(--bg-primary, #FDFBF9);
-  background-image:
-    linear-gradient(rgb(253 251 249 / var(--bg-overlay-opacity)),
-      rgb(253 251 249 / var(--bg-overlay-opacity))),
-    var(--fondo-image);
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
   min-height: 100vh;
 }
 
@@ -84,8 +76,17 @@
 }
 
 .chapter--cover {
-  min-height: 100dvh;
+  min-height: 100svh;
   padding-bottom: clamp(1.4rem, 6vh, 4rem);
+
+  background-image:
+    linear-gradient(rgb(253 251 249 / 0.45),
+      rgb(253 251 249 / 0.45)),
+    var(--fondo-image);
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .chapter--intro {
@@ -106,7 +107,7 @@
 .chapter-frame {
   /* Marco base — aguamarina muy sutil por defecto */
   --frame-color: var(--color-aqua-15, rgba(148, 222, 226, 0.15));
-  --section-bg:  var(--bg-card, #FFFFFF);
+  --section-bg: var(--bg-card, #FFFFFF);
   width: min(100%, 860px);
   padding: clamp(1.6rem, 3.8vw, 2.35rem);
   border: 1px solid transparent;
@@ -114,7 +115,7 @@
   background: var(--section-bg);
   box-shadow:
     0 8px 28px rgba(30, 26, 24, 0.028),
-    0 2px 8px  rgba(30, 26, 24, 0.016);
+    0 2px 8px rgba(30, 26, 24, 0.016);
   transition:
     border-color 0.9s ease,
     box-shadow 0.9s ease,
@@ -154,49 +155,49 @@
 
 /* Fecha — aguamarina muy suave */
 .section-bg-date {
-  --section-bg:  var(--color-aqua-bg, #F1FBFC);
+  --section-bg: var(--color-aqua-bg, #F1FBFC);
   --frame-color: var(--color-aqua-15);
 }
 
 /* Cuenta atrás — rosa pastel muy suave */
 .section-bg-countdown {
-  --section-bg:  var(--color-blush-bg, #FEF4F8);
+  --section-bg: var(--color-blush-bg, #FEF4F8);
   --frame-color: var(--color-blush-15);
 }
 
 /* Ceremonia — rosa pastel muy suave */
 .section-bg-ceremony {
-  --section-bg:  var(--color-blush-bg-soft, #FEF9FB);
+  --section-bg: var(--color-blush-bg-soft, #FEF9FB);
   --frame-color: var(--color-blush-15);
 }
 
 /* Celebración — aguamarina muy suave */
 .section-bg-celebration {
-  --section-bg:  var(--color-aqua-bg-soft, #F7FDFD);
+  --section-bg: var(--color-aqua-bg-soft, #F7FDFD);
   --frame-color: var(--color-aqua-15);
 }
 
 /* Retro-alias para compatibilidad */
 .section-bg-ceremony-celebration {
-  --section-bg:  var(--color-aqua-bg, #F1FBFC);
+  --section-bg: var(--color-aqua-bg, #F1FBFC);
   --frame-color: var(--color-teal-15);
 }
 
 /* Dress code — blush muy suave */
 .section-bg-dresscode {
-  --section-bg:  var(--color-blush-bg-soft, #FEF9FB);
+  --section-bg: var(--color-blush-bg-soft, #FEF9FB);
   --frame-color: var(--color-blush-10);
 }
 
 /* RSVP — aguamarina muy suave */
 .section-bg-rsvp {
-  --section-bg:  var(--color-aqua-bg, #F1FBFC);
+  --section-bg: var(--color-aqua-bg, #F1FBFC);
   --frame-color: var(--color-teal-15);
 }
 
 /* Final — fondo cálido neutro */
 .section-bg-final {
-  --section-bg:  var(--bg-card-warm, #FAF8F5);
+  --section-bg: var(--bg-card-warm, #FAF8F5);
   --frame-color: var(--color-blush-10);
 }
 
@@ -344,11 +345,11 @@
 }
 
 .cover-date {
-  margin: 0;
-  font-size: 0.74rem;
+  margin: 0 0 4rem;
+  font-size: 0.9rem;
   letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-strong);
 }
 
 .cover-names-group {
@@ -360,20 +361,19 @@
 
 .cover-name {
   margin: 0;
-  font-family: var(--heading-font);
-  font-size: clamp(3rem, 12vw, 7rem);
+  font-family: "Rouge Script", cursive;
+  font-size: clamp(5rem, 12vw, 7rem);
   font-weight: 600;
   line-height: 0.9;
   letter-spacing: 0.09em;
-  text-transform: uppercase;
   color: var(--text-strong);
 }
 
 .cover-ampersand {
-  font-family: var(--heading-font);
+  font-family: "Rouge Script", cursive;
   font-size: clamp(1.3rem, 4vw, 2rem);
   line-height: 1;
-  color: var(--color-burgundy);
+  color: var(--text-strong);
 }
 
 .cover-glow {
@@ -391,11 +391,11 @@
 }
 
 .cover-quote {
-  margin: 0;
+  margin: 2.1rem 0 0;
   max-width: min(86vw, 530px);
-  font-size: clamp(0.95rem, 2.9vw, 1.15rem);
+  font-size: clamp(1.05rem, 3.2vw, 1.25rem);
   line-height: 1.9;
-  color: var(--text-muted);
+  color: var(--text-strong);
 }
 
 .cover-ornament {
@@ -408,21 +408,21 @@
 .cover-ornament-line {
   width: 42px;
   height: 1px;
-  background: var(--color-burgundy-15);
+  color: var(--text-strong);
 }
 
 .cover-ornament-mark {
   font-family: var(--heading-font);
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-burgundy);
+  color: var(--text-strong);
 }
 
 .cover-scroll {
   position: absolute;
   left: 50%;
-  bottom: clamp(12px, 4vw, 26px);
+  bottom: -8px;
   transform: translateX(-50%);
   display: grid;
   justify-items: center;
@@ -559,7 +559,7 @@
   background: var(--color-blush-bg, #FEF4F8);
   box-shadow:
     0 12px 28px rgba(30, 26, 24, 0.08),
-    0 3px 8px  rgba(30, 26, 24, 0.04);
+    0 3px 8px rgba(30, 26, 24, 0.04);
 }
 
 .photo-carousel__slide img {
@@ -986,7 +986,7 @@
   }
 
   .cover-date {
-    font-size: 0.68rem;
+    font-size: 0.80rem;
     letter-spacing: 0.28em;
   }
 
@@ -996,7 +996,7 @@
 
   .cover-quote {
     max-width: 92%;
-    font-size: 0.93rem;
+    font-size: 1rem;
     line-height: 1.8;
   }
 
@@ -1005,7 +1005,7 @@
   }
 
   .cover-scroll {
-    font-size: 0.64rem;
+    font-size: 0.72rem;
     letter-spacing: 0.15em;
   }
 
